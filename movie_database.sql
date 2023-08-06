@@ -345,15 +345,7 @@ from
 movie_details a join movie_review_details b on a.movie_review=b.review_id
 where b.reviewer_name='Karn';
 
-# 11. Query to return movie details on which any actress acted more than once
-select movie_title,movie_release_year,actress_name
-from
-movie_cast a
-RIGHT JOIN movie_details b on b.movie_id=a.movie_details
-RIGHT JOIN actress_details c on a.actress=c.actress_id
-where c.actress_id in (select actress from movie_cast group by actress having count(1)>1) order by movie_release_year desc ; 
-
-# 12. Query to get the movie details  low star rating 
+# 11. Query to get the movie details  low star rating 
 select movie_title, movie_release_year,budget, review_star,review_comments
 from
 movie_details a 
@@ -362,7 +354,7 @@ where
 b.review_star in (select min(review_star) from movie_review_details);
 
 
-# 13 . Query to fetch the movie details whose actors name starts with Ch
+# 12 . Query to fetch the movie details whose actors name starts with Ch
 select movie_title, actor_name, actor_phone_number, c.language
 from 
 movie_details a 
@@ -371,7 +363,7 @@ join language_details c on a.movie_language=c.language_id
 join actor_details d on b.actor=d.actor_id
 where d.actor_name like 'Ch%';
 
-# 14. Query to return highest rated Drama movies
+# 13. Query to return highest rated Drama movies
 select movie_title, c.movie_genre, d.review_star, d.review_comments
 from 
 movie_cast a
@@ -381,14 +373,14 @@ join movie_review_details d on b.movie_review= d.review_id
 where
 d.review_star in (select max(review_star) from movie_review_details );
 
-# 15. Query to fetch movie details which are in 3D and 4dX
+# 14. Query to fetch movie details which are in 3D and 4dX
 select movie_title, movie_release_year, budget, b.movie_format
 from
 movie_details a
 join movie_format b on a.movie_format=b.movie_format_id
 where b.movie_format in ('3D','4DX');
 
-# 16 . Query to fetch movies list year and language wise
+# 15 . Query to fetch movies list year and language wise
 select movie_release_year, b.language, count(1)
 from 
 movie_details a
@@ -396,12 +388,12 @@ join language_details b on a.movie_language=b.language_id
 group by movie_release_year, b.language
 order by movie_release_year desc;
 
-# 17. Query to fetch average budget of movies in a particular year
+# 16. Query to fetch average budget of movies in a particular year
 select round(avg(budget)) , movie_release_year
 from movie_details
 where movie_release_year='2023';
 
-# 18. Query to fetch movie details where a particular director havnt directed
+# 17. Query to fetch movie details where a particular director havnt directed
 select movie_title, director_name,movie_release_year
 from
 movie_cast a
@@ -410,7 +402,7 @@ join director_details c on a.director = c.director_id
 where
 c.director_name not in ('Sukumar');
 
-# 19 . Query to fetch the movie details where produced and directed by same person
+# 18 . Query to fetch the movie details where produced and directed by same person
 select movie_title, director_name,producer_name,lan.language
 from movie_details a, movie_cast b, director_details c, producer_details d, language_details lan
 where
@@ -420,15 +412,7 @@ and b.producer=d.producer_id
 and c.director_name=d.producer_name
 and a.movie_language=lan.language_id;
 
-# 20 . Query to get all the movies language, release year and their count yearwise having more than 1 movie
-select movie_release_year, lan.language, count(1)
-from 
-movie_details a
-join language_details lan on a.movie_language=lan.language_id
-group by movie_release_year, lan.language having count(movie_release_year)>1
-order by movie_release_year ;
-
-#21 . Query to fetch actor records with maximum remuneration
+#19 . Query to fetch actor records with maximum remuneration
 select * from actor_details
 where
 remuneration in (select max(remuneration) from actor_details);
